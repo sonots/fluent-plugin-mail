@@ -76,6 +76,8 @@ class Fluent::MailOutput < Fluent::Output
   end
 
   def emit(tag, es, chain)
+    log.debug "out_mail: started  to emit #{tag}"
+    started = Time.now
     messages = []
     subjects = []
 
@@ -97,6 +99,9 @@ class Fluent::MailOutput < Fluent::Output
       end
     end
 
+    elapsed = (Time.now - started).to_i
+    log.debug "out_mail: finished to emit #{tag}"
+    log.info "out_mail\telapsed:#{elapsed}\ttag:#{tag}"
     chain.next
   end
 
